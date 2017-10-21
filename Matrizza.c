@@ -1,53 +1,62 @@
 #include <stdio.h>
-#define LINESOFMATRIX 6
-#define COLUMNSOFMATRIX 7
+#define LINESOFMATRIX 5
+#define COLUMNSOFMATRIX 5
 
-int* AdresOfElement(int* arr, int Line, int Column, int CountOfColumns)
+void EqualArrays(float* arr1, float* arr2, int Lines, int Columns)
 {
-	return(arr + CountOfColumns*(Line - 1) + Column);
+	for (int i = 0; i < Lines; i++)
+		for (int j = 0; j < Columns; j++)
+		{
+			*(arr1 + Columns*i + j) = *(arr2 + Columns*i + j);
+		}
 }
 
-int NullColumn(int* arr, int Column, int NumberOfLines, int NumberOfColumns)
+float* AdresOfElement(float* arr, int Line, int Column, int CountOfColumns)
+{
+	return(arr + CountOfColumns*(Line - 1) + Column-1);
+}
+
+float DeletColumn(float* arr, int Column, int NumberOfLines, int NumberOfColumns)
 {
 	if (Column>0 && Column <= NumberOfColumns)
 	{
 		for (int i = 1; i <= NumberOfLines; i++)
 		{
-			*AdresOfElement(arr, i, Column - 1, NumberOfColumns) = -1;
+			*AdresOfElement(arr, i, Column, NumberOfColumns) = -1;
 
 		}
 	}
 }
 
-int NullLine(int* arr, int Line, int NumberOfLines, int NumberOfColumns)
+float DeletLine(float* arr, int Line, int NumberOfLines, int NumberOfColumns)
 {
 	if (Line>0 && Line <= NumberOfLines)
 	{
 		for (int i = 1; i < NumberOfColumns; i++)
 		{
-			*AdresOfElement(arr, Line, i-1, NumberOfColumns) = -1;
+			*AdresOfElement(arr, Line, i, NumberOfColumns) = -1;
 
 		}
 	}
 }
 
-int ChangeColumns(int* arr, int Column1, int Column2, int NumberOfLines, int NumberOfColumns)
+float ChangeColumns(float* arr, int Column1, int Column2, int NumberOfLines, int NumberOfColumns)
 {
-	int bufer;
+	float bufer;
 	if (Column1>0 && Column2>0 && Column1<=NumberOfColumns && Column2<=NumberOfColumns)
 	{
 		for (int i = 1; i <= NumberOfLines; i++)
 		{
-			bufer = *AdresOfElement(arr, i, Column1-1, NumberOfColumns);
-			*AdresOfElement(arr, i, Column1-1, NumberOfColumns) = *AdresOfElement(arr, i, Column2-1, NumberOfColumns);
-			*AdresOfElement(arr, i, Column2-1, NumberOfColumns) = bufer;
+			bufer = *AdresOfElement(arr, i, Column1, NumberOfColumns);
+			*AdresOfElement(arr, i, Column1, NumberOfColumns) = *AdresOfElement(arr, i, Column2, NumberOfColumns);
+			*AdresOfElement(arr, i, Column2, NumberOfColumns) = bufer;
 		}
 	}
 }
 
-int ChangeLines(int* arr, int Line1, int Line2, int NumberOfLines, int NumberOfColumns)
+float ChangeLines(float* arr, int Line1, int Line2, int NumberOfLines, int NumberOfColumns)
 {
-	int bufer;
+	float bufer;
 	if (Line1>0 && Line2>0 && Line1 <= NumberOfLines && Line2 <= NumberOfLines)
 	{
 		for (int i = 1; i <= NumberOfColumns; i++)
@@ -59,50 +68,52 @@ int ChangeLines(int* arr, int Line1, int Line2, int NumberOfLines, int NumberOfC
 	}
 }
 
-void PrintArr(int* arr, int Lines, int Columns)
+void PrintArr(float* arr, int Lines, int Columns)
 {
 	for (int i = 0; i < Lines; i++)
 	{
 		for (int j = 0; j < Columns; j++)
-			printf("%d\t", *(arr + i*(Columns)+j));
+			printf("%.2f\t", *(arr + i*(Columns)+j));
 		printf("\n");
 	}
 
 }
 
-int* MakeDopMatrix(int Line, int Column, int NumberOfLines, int NumberOfColumns, int* arr)
+float* MakeDopMatrix(int Line, int Column, int NumberOfLines, int NumberOfColumns, float* arr)
 {
 	int i = 0, j = Column;
+	float Arr[LINESOFMATRIX][COLUMNSOFMATRIX];
+	EqualArrays(Arr, arr, NumberOfLines, NumberOfColumns);
 
-	while (j <= NumberOfColumns && *AdresOfElement(arr, NumberOfLines, j, NumberOfColumns) != -1)
+	while (j <= NumberOfColumns && *AdresOfElement(Arr, 1, j, NumberOfColumns) != -1)
 	{
-		ChangeColumns(arr, j-1, j, NumberOfLines, NumberOfColumns);
+		ChangeColumns(Arr, j - 1, j, NumberOfLines, NumberOfColumns);
 		j++;
 	}
-	NullColumn(arr, j-1, NumberOfLines, NumberOfColumns);
+	DeletColumn(Arr, j - 1, NumberOfLines, NumberOfColumns);
 
 	j = Line;
-	while (j < NumberOfLines && *AdresOfElement(arr, j, NumberOfColumns, NumberOfColumns) != -1)
+	while (j <= NumberOfLines && *AdresOfElement(Arr, j, 1, NumberOfColumns) != -1)
 	{
-		ChangeLines(arr, j-1, j, NumberOfLines, NumberOfColumns);
+		ChangeLines(Arr, j - 1, j, NumberOfLines, NumberOfColumns);
 		j++;
 	}
-	NullLine(arr, j, NumberOfLines, NumberOfColumns);
+	DeletLine(Arr, j - 1, NumberOfLines, NumberOfColumns);
 
 
-	PrintArr(arr, NumberOfLines, NumberOfColumns);
-	return(arr);
+	PrintArr(Arr, NumberOfLines, NumberOfColumns);
+	return(Arr);
 }
 
 void main()
 {
-	int Matrix[LINESOFMATRIX][COLUMNSOFMATRIX];
+	float Matrix[LINESOFMATRIX][COLUMNSOFMATRIX];
 
 	for (int i = 0; i < LINESOFMATRIX; i++)
 		for (int j = 0; j < COLUMNSOFMATRIX; j++)
 		{
 			//scanf("%d", &Matrix[i][j]);
-			Matrix[i][j] = j+1;
+			Matrix[i][j] = 10*(i+1)+j+1;
 		}
 
 	printf("\n");
@@ -113,16 +124,6 @@ void main()
 
 	MakeDopMatrix(1, 1, LINESOFMATRIX, COLUMNSOFMATRIX, Matrix);
 	printf("\n");
-	MakeDopMatrix(1, 1, LINESOFMATRIX, COLUMNSOFMATRIX, Matrix);
-	printf("\n");
-	MakeDopMatrix(1, 1, LINESOFMATRIX, COLUMNSOFMATRIX, Matrix);
-	printf("\n");
-	MakeDopMatrix(1, 1, LINESOFMATRIX, COLUMNSOFMATRIX, Matrix);
-	printf("\n");
-	MakeDopMatrix(1, 1, LINESOFMATRIX, COLUMNSOFMATRIX, Matrix);
-	printf("\n");
-	MakeDopMatrix(1, 1, LINESOFMATRIX, COLUMNSOFMATRIX, Matrix);
-	printf("\n");
-	MakeDopMatrix(1, 1, LINESOFMATRIX, COLUMNSOFMATRIX, Matrix);
-	printf("\n");
+	PrintArr(MakeDopMatrix(1, 1, LINESOFMATRIX, COLUMNSOFMATRIX, Matrix) , LINESOFMATRIX, COLUMNSOFMATRIX);
+
 }
