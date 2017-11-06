@@ -126,6 +126,11 @@ float Opr2x2(float* arr, int Columns)
 
 float Det(float* arr, int Lines, int Columns)
 {
+	if (Lines != Columns)
+	{
+		printf("Enter square matrix\n");
+		return 0;
+	}
 	float Arr[LINESOFMATRIX][COLUMNSOFMATRIX];
 	float DopArr[LINESOFMATRIX][COLUMNSOFMATRIX];
 	EqualArrays(Arr, arr, Lines, Columns);
