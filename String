@@ -1,0 +1,71 @@
+#include <stdio.h>
+
+void PrintString(char* adr, int* count)
+{
+	if (adr == NULL)
+	{
+		printf("ADRES = NULL");
+		return;
+	}
+
+	for (int i = 0; i < *count; i++)
+	{
+		printf("%c", *(adr + i));
+	}
+	printf("\n");
+	*count = 1;
+}
+
+char* MakeString(char* adr, int* count, char end)
+{
+	adr = (char*)realloc((void*)adr, *count * sizeof(char));
+	if (adr == NULL)
+	{
+		printf("ADRES = NULL");
+		return 0;
+	}
+	scanf("%c", adr + *count - 1);
+	if (*(adr + *count - 1) != end)
+	{
+		*(count) += 1;
+		MakeString(adr, count, end);
+	}
+	else
+	{
+		*(adr + *count - 1) = '\0';
+		return (adr);
+	}
+}
+
+char* MakeStringGetchar(char* adr, int* count, char end)
+{
+	char c;
+	adr = (char*)realloc((void*)adr, *count * sizeof(char));
+	if (adr == NULL)
+	{
+		printf("ADRES = NULL");
+		return 0;
+	}
+	if ((c = getchar()) != end)
+	{
+		*(adr + *count - 1) = c;
+		*count += 1;
+		MakeStringGetchar(adr, count, end);
+	}
+	*(adr + *count - 1) = '\0';
+	return(adr);
+}
+
+void main()
+{
+	int count = 1;
+	char* adres;
+
+	printf("enter string:");
+	adres = MakeString(NULL, &count, '\n');
+	PrintString(adres, &count);
+
+	printf("enter string:");
+	adres = MakeStringGetchar(NULL, &count, '\n');
+	PrintString(adres, &count);
+}
