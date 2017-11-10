@@ -126,12 +126,12 @@ void main()
 	int count1 = 1, count2 = 1, count3 = 1; /*, lines, columns;*/
 	char *adres1, *adres2;
 
-	printf("enter first string (ends with ';'):\n");
+	printf("enter first string (ends with '\\n'):\n");
 	adres1 = MakeString(NULL, &count1, '\n');
 	printf("count1 = %d\n", count1);
 	PrintString(adres1, count1);
 
-	printf("Enter second String:\n");
+	printf("Enter second string (ends with '\\n'):\n");
 	adres2 = MakeString(NULL, &count2, '\n');
 	printf("count2 = %d\n", count2);
 	PrintString(adres2, count2);
