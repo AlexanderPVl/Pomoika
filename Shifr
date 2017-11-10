@@ -1,71 +1,153 @@
 #include <stdio.h>
+#include <malloc.h>
 
-void PrintString(char* adr, int* count)
+char* InverseString(char* adr, int* count)
 {
 	if (adr == NULL)
 	{
-		printf("ADRES = NULL");
-		return;
+		printf("ADRES = NULL\n");
+		return (NULL);
 	}
-
+	char a;
 	for (int i = 0; i < *count; i++)
+	{
+		a = *(adr + i);
+		*(adr + i) = *(adr + *count - i - 1);
+		*(adr + *count - i - 1) = a;
+	}
+	return (adr);
+}
+
+char* RemoveString(char *adr1, char *adr2, int *count1, int *count2, int k)
+{
+	if ((adr1 == NULL) || (adr2 == NULL))
+	{
+		printf("ADRES = NULL");
+		return (NULL);
+	}
+	int false, i;
+	for (i = k; i < *count1; i++)
+	{
+		if (*(adr1 + i) == *adr2)
+		{
+			RemoveString(adr1, adr2, count1, count2, i + 1);
+			false = 0;
+			int j;
+			for (j = i; (j < i + *count2-1) && (j < *count1); j++)
+			{
+				if (*(adr1 + j) != *(adr2 + j - i))
+				{
+					false = 1;
+					break;
+				}
+			}
+			if (false == 0)
+			{
+				int z1, z2;
+				for (z1 = i + 1; (z1 < *count2 + i) && (z1 < *count1); z1++)
+				{
+					for (z2 = i + 1; z2 < *count1; z2++)
+						*(adr1 + z2 - 1) = *(adr1 + z2);
+				}
+				*(count1) -= 1;
+			}
+		}
+	}
+	return (adr1);
+}
+
+char* RemoveChar(char *adr, char simv, int *count, int k)
+{
+	if (adr == NULL)
+	{
+		return (NULL);
+		printf("ADRES = NULL");
+	}
+	int  i;
+	for (i = k; i < *count; i++)
+	{
+		if (*(adr + i) == simv)
+		{
+			RemoveChar(adr, simv, count, i+1);
+			int j;
+			for (j = i + 1; j < *count; j++)
+			{
+				*(adr + j - 1) = *(adr + j);
+			}
+			*(count) -= 1;
+		}
+	}
+	return (adr);
+}
+
+char* PrintString(char* adr, int count)
+{
+	if (adr == NULL)
+	{
+		printf("ADRES = NULL\n");
+		return (NULL);
+	}
+	int i;
+	for (i = 0; i < count; i++)
 	{
 		printf("%c", *(adr + i));
 	}
 	printf("\n");
-	*count = 1;
+	return (adr);
 }
 
-char* MakeString(char* adr, int* count, char end)
+char* MakeString(char *adr, int *count, char end)
 {
-	adr = (char*)realloc((void*)adr, *count * sizeof(char));
-	if (adr == NULL)
-	{
-		printf("ADRES = NULL");
-		return 0;
-	}
-	scanf("%c", adr + *count - 1);
-	if (*(adr + *count - 1) != end)
-	{
-		*(count) += 1;
-		MakeString(adr, count, end);
-	}
-	else
-	{
-		*(adr + *count - 1) = '\0';
-		return (adr);
-	}
-}
 
-char* MakeStringGetchar(char* adr, int* count, char end)
-{
 	char c;
-	adr = (char*)realloc((void*)adr, *count * sizeof(char));
-	if (adr == NULL)
+	while ((c = getchar()) != end)
 	{
-		printf("ADRES = NULL");
-		return 0;
-	}
-	if ((c = getchar()) != end)
-	{
+		adr = (char*)realloc((void*)adr, *count * sizeof(char));
+		if (adr == NULL)
+		{
+			printf("ADRES = NULL");
+			return (NULL);
+		}
 		*(adr + *count - 1) = c;
 		*count += 1;
-		MakeStringGetchar(adr, count, end);
 	}
-	*(adr + *count - 1) = '\0';
-	return(adr);
+	if (adr != NULL)
+		*(adr + *count - 1) = '\0';
+	else
+	{
+		printf("ADRES = NULL\n");
+		return(NULL);
+	}
+	return (adr);
 }
 
 void main()
 {
-	int count = 1;
-	char* adres;
+	int count1 = 1, count2 = 1, count3 = 1; /*, lines, columns;*/
+	char *adres1, *adres2;
 
-	printf("enter string:");
-	adres = MakeString(NULL, &count, '\n');
-	PrintString(adres, &count);
+	printf("enter first string (ends with ';'):\n");
+	adres1 = MakeString(NULL, &count1, '\n');
+	printf("count1 = %d\n", count1);
+	PrintString(adres1, count1);
 
-	printf("enter string:");
-	adres = MakeStringGetchar(NULL, &count, '\n');
-	PrintString(adres, &count);
+	printf("Enter second String:\n");
+	adres2 = MakeString(NULL, &count2, '\n');
+	printf("count2 = %d\n", count2);
+	PrintString(adres2, count2);
+
+	/*printf("enter lines\n");
+	scanf("%d", &lines);
+	printf("enter columns\n");
+	scanf("%d", &columns);
+
+	adres1 = (char*)realloc(adres1, columns*lines*sizeof(char));
+	PrintString(adres1, columns*lines*sizeof(char));
+
+	printf("enter order of columns (separating with " "):\n");
+	adres2 = MakeString(NULL, &count2, '0');*/
+	RemoveString(adres1, adres2, &count1, &count2, 0);
+	/*RemoveChar(adres1, *adres2, &count1, 0);*/
+	printf("Result:\n");
+	PrintString(adres1, count1);
 }
