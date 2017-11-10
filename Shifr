@@ -98,19 +98,19 @@ char* PrintString(char* adr, int count)
 
 char* MakeString(char *adr, int *count, char end)
 {
-
+	adr = (char*)malloc(10000 * sizeof(char));
 	char c;
-	while ((c = getchar()) != end)
+	while (((c = getchar()) != end) && *count <= 10000)
 	{
-		adr = (char*)realloc((void*)adr, *count * sizeof(char));
 		if (adr == NULL)
 		{
-			printf("ADRES = NULL\n");
+			printf("ADRES = NULL");
 			return (NULL);
 		}
 		*(adr + *count - 1) = c;
 		*count += 1;
 	}
+	adr = (char*)realloc((void*)adr, *count*sizeof(char));
 	if (adr != NULL)
 		*(adr + *count - 1) = '\0';
 	else
@@ -119,12 +119,17 @@ char* MakeString(char *adr, int *count, char end)
 		return(NULL);
 	}
 	return (adr);
+	
 }
 
 void main()
 {
 	int count1 = 1, count2 = 1, count3 = 1; /*, lines, columns;*/
 	char *adres1, *adres2;
+	adres1 = malloc(10000 * sizeof(char));
+	adres2 = malloc(10000 * sizeof(char));
+	adres1 = (char*)realloc((void*)adres1, count1*sizeof(char));
+	adres2 = (char*)realloc((void*)adres2, count2*sizeof(char));
 
 	printf("enter first string (ends with '\\n'):\n");
 	adres1 = MakeString(NULL, &count1, '\n');
@@ -150,4 +155,6 @@ void main()
 	/*RemoveChar(adres1, *adres2, &count1, 0);*/
 	printf("Result:\n");
 	PrintString(adres1, count1);
+	free(adres1);
+	free(adres2);
 }
