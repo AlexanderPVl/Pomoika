@@ -61,7 +61,7 @@ char* RemoveChar(char *adr, char simv, int *count, int k)
 	if (adr == NULL)
 	{
 		return (NULL);
-		printf("ADRES = NULL");
+		printf("ADRES = NULL\n");
 	}
 	int  i;
 	for (i = k; i < *count; i++)
@@ -105,7 +105,7 @@ char* MakeString(char *adr, int *count, char end)
 		adr = (char*)realloc((void*)adr, *count * sizeof(char));
 		if (adr == NULL)
 		{
-			printf("ADRES = NULL");
+			printf("ADRES = NULL\n");
 			return (NULL);
 		}
 		*(adr + *count - 1) = c;
