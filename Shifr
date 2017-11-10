@@ -22,7 +22,7 @@ char* RemoveString(char *adr1, char *adr2, int *count1, int *count2, int k)
 {
 	if ((adr1 == NULL) || (adr2 == NULL))
 	{
-		printf("ADRES = NULL");
+		printf("ADRES = NULL\n");
 		return (NULL);
 	}
 	int false, i;
