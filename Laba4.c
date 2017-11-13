@@ -63,7 +63,6 @@ int Solution(int *adres, int *count){
 				*(adres + j - 1) = *(adres + j);
 			*count -= 1;
 		}
-	printf("count = %d", *count);
 	return (0);
 }
 
