@@ -57,7 +57,6 @@ int Solution(int *adres, int *count){
 			max = c;
 		}
 	}
-
 	for (i = ind; i >= 0; i--)
 		if (*(adres + i) % 2 == 0){
 			for (j = i + 1; j < *count; j++)
@@ -65,6 +64,7 @@ int Solution(int *adres, int *count){
 			*count -= 1;
 		}
 	printf("count = %d", *count);
+	return (0);
 }
 
 int main(){
