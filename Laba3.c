@@ -2,7 +2,7 @@
 #include <malloc.h>
 
 void scan(int *k){
-	signed short int sign = 1;
+	signed int sign = 1;
 	int r = 0;
 	char c;
 	while ((((c = getchar()) == ' ') || (c - '0' < 0) || (c - '0' > 9)) && (c != '-'));
@@ -63,9 +63,32 @@ int Solution1(int *adres, int count, int X){
 		if (((c = *(adres + i))> X) && c < min)
 			min = c;
 	if (min > X)
-		printf("Min = %d\n", min);
+		printf("Min >X = %d\n", min);
 	else
 		printf("No solution");
+	return (0);
+}
+
+int Solution2(int *adres, int count, int X){
+	if (adres == NULL){
+		printf("\nADRES = NULL\n");
+		return (-1);
+	}
+	int min, i = 0, ind = 0, c;
+	float average = 0;
+	for (min = *adres; i < count; i++){
+		if ((c = *(adres + i)) <= min){
+			ind = i;
+			min = c;
+		}
+	}
+	for (i = 0; i < ind; i++)
+		average += (float)*(adres + i);
+	average /= (float)ind;
+	if (ind > 0)
+		printf("Average = %f", average);
+	else
+		printf("No solution\n");
 	return (0);
 }
 
@@ -89,6 +112,7 @@ int main(){
 	scan(&X);
 
 	Solution1(adres, k, X);
+	Solution2(adres, k, X);
 
 	free(adres);
 	return 0;
