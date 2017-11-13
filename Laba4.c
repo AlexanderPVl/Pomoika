@@ -68,7 +68,7 @@ int Solution(int *adres, int *count){
 }
 
 int main(){
-	int *adres, X;
+	int *adres;
 	int k = 0;
 	printf("Enter number of elements: ");
 	do{
