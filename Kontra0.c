@@ -140,7 +140,7 @@ int Solution2(double** adres, int count){	/*summ of elements under glavnaya diag
 	for (i = 0; i < count; i++)
 		for (j = i; j < count; j++)
 			summ += *(*(adres + j) + i);
-	printf("\nSumm = %d\n", summ);
+	printf("\nSumm = %lf\n", summ);
 	return 0;
 }
 
