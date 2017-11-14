@@ -170,7 +170,7 @@ int main(){
 	adres = (int*)malloc(k*sizeof(int));
 
 	printf("Enter Array: ");
-	InputArray(adres, k, 'd'); /*makes one-dimensional integer array*/
+	InputArray((void*)adres, k, 'd'); /*makes one-dimensional integer array*/
 	PrintArray(adres, k, 'd');
 	Solution1(adres, k, N);
 	free(adres);
@@ -192,7 +192,7 @@ int main(){
 	printf("Enter Matrix: ");
 	for (i = 0; i < k; i++){	/*makes two-dimensional double array (square matrix)*/
 		printf("line %d: \n", i+1);
-		InputArray(*(adres1 + i), k, 'l');
+		InputArray((void*)*(adres1 + i), k, 'l');
 	}
 	printf("%lf", *(adres1 + 1) + 1);
 
