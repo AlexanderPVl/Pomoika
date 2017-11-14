@@ -131,7 +131,8 @@ int Solution1(int *adres, int count, int count2){
 }
 
 int Solution2(double** adres, int count){	/*summ of elements under glavnaya diagonal' incluziff*/
-	int i, j, summ = 0;
+	int i, j;
+	double summ = 0;
 	if (adres == NULL){
 		printf("\nADRES = NULL\n");
 		return -1;
